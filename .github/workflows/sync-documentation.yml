@@ -1,0 +1,114 @@
+name: Sync Documentation Auto-Generated Skill
+
+on:
+  schedule:
+    - cron: "0 6 * * *" # Daily at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Fetch discovery index
+        id: fetch-index
+        run: |
+          INDEX=$(curl -sf https://docs.gladia.io/.well-known/agent-skills/index.json)
+          REMOTE_DIGEST=$(echo "$INDEX" | jq -r '.skills[0].digest')
+          echo "remote_digest=$REMOTE_DIGEST" >> "$GITHUB_OUTPUT"
+
+      - name: Read current digest
+        id: current-digest
+        run: |
+          SKILL_FILE="plugins/gladia/skills/documentation-auto/SKILL.md"
+          if [ -f "$SKILL_FILE" ]; then
+            CURRENT=$(grep -oP 'digest: sha256:\K[a-f0-9]+' "$SKILL_FILE" || echo "none")
+          else
+            CURRENT="none"
+          fi
+          echo "current_digest=sha256:$CURRENT" >> "$GITHUB_OUTPUT"
+
+      - name: Check for changes
+        id: check
+        run: |
+          if [ "${{ steps.fetch-index.outputs.remote_digest }}" = "${{ steps.current-digest.outputs.current_digest }}" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes detected"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Skill has changed, updating..."
+          fi
+
+      - name: Download updated skill
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          curl -sf https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md -o /tmp/skill-raw.md
+
+      - name: Update skill file with frontmatter
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          DIGEST="${{ steps.fetch-index.outputs.remote_digest }}"
+          TODAY=$(date +%Y-%m-%d)
+
+          SKILL_FILE="plugins/gladia/skills/documentation-auto/SKILL.md"
+
+          {
+            echo "---"
+            echo "name: documentation-auto"
+            echo "description: Comprehensive Gladia speech-to-text reference auto-synced from docs.gladia.io. Use as a general-purpose fallback when other specialized skills don't match, or when the user needs a broad overview of Gladia capabilities, endpoints, decision guidance, or workflows. Always prefer the official SDK; fall back to raw REST/WebSocket only when SDK cannot satisfy the requirement."
+            echo "license: MIT"
+            echo "metadata:"
+            echo "  source: https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md"
+            echo "  digest: $DIGEST"
+            echo "  synced: \"$TODAY\""
+            echo "---"
+          } > "$SKILL_FILE"
+          echo "" >> "$SKILL_FILE"
+          {
+            echo '> **SDK-first**: always use the official SDK — see [sdk-integration](../sdk-integration/SKILL.md) for policy, setup, and fallback criteria.'
+            echo ''
+            echo '## References'
+            echo ''
+            echo 'Consult these sibling skills as needed:'
+            echo ''
+            echo '- ../sdk-integration/SKILL.md -- SDK setup, client initialization, error handling, and SDK vs raw API decision guide'
+            echo '- ../sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)'
+            echo '- ../troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist'
+            echo '- ../live-transcription/SKILL.md -- Live streaming transcription'
+            echo '- ../pre-recorded-transcription/SKILL.md -- Pre-recorded file transcription'
+            echo ''
+          } >> "$SKILL_FILE"
+
+          cat /tmp/skill-raw.md >> "$SKILL_FILE"
+
+          echo "" >> "$SKILL_FILE"
+          echo "---" >> "$SKILL_FILE"
+          echo "" >> "$SKILL_FILE"
+          echo "> This file is auto-synced from https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md" >> "$SKILL_FILE"
+          echo "> Do not edit manually — changes will be overwritten by CI." >> "$SKILL_FILE"
+          echo "> For additional documentation and navigation, see: https://docs.gladia.io/llms.txt" >> "$SKILL_FILE"
+
+      - name: Create pull request
+        if: steps.check.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: sync documentation-auto skill from docs.gladia.io"
+          branch: auto/sync-documentation-skill
+          delete-branch: true
+          title: "chore: sync documentation-auto skill from docs.gladia.io"
+          body: |
+            Automated update of the `documentation-auto` skill from [docs.gladia.io](https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md).
+
+            **Previous digest**: `${{ steps.current-digest.outputs.current_digest }}`
+            **New digest**: `${{ steps.fetch-index.outputs.remote_digest }}`
+
+            This PR was auto-generated by the [sync-documentation workflow](.github/workflows/sync-documentation.yml).
+          labels: |
+            automated
+            documentation

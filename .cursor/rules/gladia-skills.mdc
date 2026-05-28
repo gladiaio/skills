@@ -1,0 +1,31 @@
+---
+description: Conventions for the Gladia skills repository — SDK-first policy, skill structure, and code generation guidelines
+globs:
+  - plugins/gladia/**
+---
+
+# Gladia Skills Conventions
+
+## SDK-First Policy
+
+All code examples MUST use the official Gladia SDK (`@gladiaio/sdk` for JS/TS, `gladiaio-sdk` for Python). Only use raw REST/WebSocket as a documented fallback when the SDK cannot satisfy the requirement or the user explicitly requests direct protocol-level control.
+
+## Skill Structure
+
+- Each skill lives in `plugins/gladia/skills/<skill-name>/`
+- `SKILL.md` is required; move detailed content to `references/` subdirectory
+- Keep SKILL.md under ~300 lines / ~800 words
+- Reference files over 100 lines need a `## Contents` table of contents
+- Cross-reference `sdk-integration` and `troubleshooting` from every use-case skill
+
+## Code Generation
+
+- Assume `GladiaClient` is already initialized — do not show init code in use-case skills
+- Point to `sdk-integration` skill for setup and initialization
+- Include examples in both JavaScript/TypeScript and Python
+- Do not hardcode SDK versions — they are CI-managed in `sdk-versions.md`
+
+## CI-Managed Files (do not edit)
+
+- `plugins/gladia/skills/documentation-auto/SKILL.md` — synced from docs.gladia.io
+- `plugins/gladia/skills/sdk-integration/references/sdk-versions.md` — synced from npm/PyPI

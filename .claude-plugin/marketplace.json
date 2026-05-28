@@ -1,0 +1,17 @@
+{
+  "name": "gladia-plugins",
+  "owner": {
+    "name": "Gladia",
+    "email": "support@gladia.io"
+  },
+  "metadata": {
+    "description": "Official Gladia AI agent skills for speech-to-text integration"
+  },
+  "plugins": [
+    {
+      "name": "gladia",
+      "source": "./plugins/gladia",
+      "description": "Official Gladia skills for pre-recorded transcription, live streaming, SDK integration, and troubleshooting."
+    }
+  ]
+}

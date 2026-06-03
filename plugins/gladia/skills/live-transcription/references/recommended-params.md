@@ -4,12 +4,48 @@ Best parameter configurations for real-time transcription depending on your appl
 
 ## Contents
 
+- Endpointing and VAD Tuning
 - Voice Agents (low latency, fast turn detection)
 - Meeting Recorders (accuracy, post-processing)
 - Call Centers (telephony audio, analytics)
 - Live Subtitles / Captions (display-ready text)
 - Multi-Language Conversations (code switching)
 - Region Selection (eu-west, us-west)
+
+## Endpointing and VAD Tuning
+
+### `endpointing` (seconds)
+
+How long a silence must last before Gladia closes the current utterance and emits a final transcript.
+
+- **Default:** `0.05` — **Range:** `0.01` to `10`
+
+This is the core latency-versus-accuracy tradeoff in live transcription. Lower values produce faster final segments but can split utterances at short pauses. Higher values produce cleaner segments but add latency.
+
+| Use case         | Recommended value | Why                                    |
+| ---------------- | ----------------- | -------------------------------------- |
+| Voice agent      | `0.05` - `0.1`    | Fast turn detection                    |
+| Call center      | `0.1` - `0.3`     | Snappy but tolerates telephony gaps    |
+| Live subtitles   | `0.2` - `0.4`     | Readable chunks without too much delay |
+| Meeting recorder | `0.3` - `0.5`     | Complete sentences before closing      |
+
+### `maximum_duration_without_endpointing` (seconds)
+
+Hard cap on utterance length when no silence is detected.
+
+- **Default:** `5` — **Range:** `5` to `60`
+
+Use lower values for voice agents (fast turn taking) and higher values for long-form capture (meetings and webinars).
+
+### `speech_threshold` (0.0 - 1.0)
+
+Located in `pre_processing.speech_threshold`. Controls how confident VAD must be before opening an utterance.
+
+- **Default:** `0.5` — **Range:** `0.0` to `1.0`
+- Low value (for example `0.3`) increases sensitivity and may trigger on noise
+- High value (for example `0.7`) is more conservative and may miss faint speech
+
+Raise `speech_threshold` in noisy environments and lower it only for quiet, low-volume speakers.
 
 ## Voice Agents
 

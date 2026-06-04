@@ -97,7 +97,7 @@ jobs:
 
       - name: Create pull request
         if: steps.check.outputs.changed == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: sync SDK versions (JS ${{ steps.versions.outputs.js }}, Python ${{ steps.versions.outputs.py }})"

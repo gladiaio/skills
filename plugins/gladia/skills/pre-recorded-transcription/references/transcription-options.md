@@ -8,7 +8,7 @@ Complete configuration reference for all pre-recorded transcription options pass
 - Audio Intelligence Options (full example)
 - Delivery (callbacks)
 
-For client-level config (retry, timeouts, HTTP headers), see [sdk-integration](../../sdk-integration/SKILL.md#configuration-options). For detailed audio intelligence feature docs, see [audio-intelligence.md](./audio-intelligence.md).
+For client-level config (retry, timeouts, HTTP headers), see [sdk-integration](../../sdk-integration/SKILL.md#configuration-options). For detailed audio intelligence feature docs, see [audio-intelligence](../../audio-intelligence/SKILL.md).
 
 ## Full Options Example (JavaScript/TypeScript)
 

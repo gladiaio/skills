@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   publish:
-    uses: openclaw/clawhub/.github/workflows/skill-publish.yml@main
+    uses: openclaw/clawhub/.github/workflows/skill-publish.yml@6fc5bb7cd80f8efc020bfc787b0b2ad2de017147
     with:
       root: plugins/gladia/skills
       dry_run: false

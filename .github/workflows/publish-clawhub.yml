@@ -1,0 +1,22 @@
+name: Publish skills to ClawHub
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "plugins/gladia/skills/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    uses: openclaw/clawhub/.github/workflows/skill-publish.yml@main
+    with:
+      root: plugins/gladia/skills
+      dry_run: false
+      owner: gladiaio
+    secrets:
+      clawhub_token: ${{ secrets.CLAWHUB_API_TOKEN }}

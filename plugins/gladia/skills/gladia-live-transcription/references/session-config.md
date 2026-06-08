@@ -99,5 +99,5 @@ session = live_client.start_session(
 
 ## Related References
 
-- For client-level settings (retry, timeouts, WebSocket behavior), see [sdk-integration](../../sdk-integration/SKILL.md#configuration-options).
-- For complete live audio intelligence config behavior, see [live-audio-intelligence](../../audio-intelligence/references/live-audio-intelligence.md).
+- For client-level settings (retry, timeouts, WebSocket behavior), see [gladia-sdk-integration](../../gladia-sdk-integration/SKILL.md#configuration-options).
+- For complete live audio intelligence config behavior, see [live-audio-intelligence](../../gladia-audio-intelligence/references/live-audio-intelligence.md).

@@ -1,5 +1,4 @@
----
-name: troubleshooting
+name: gladia-troubleshooting
 description: Diagnose and fix common Gladia API issues. Use when the user encounters errors (401, 403, 429), unexpected behavior, poor transcription quality, billing confusion, audio format problems, WebSocket disconnections, polling failures, or asks about limits and rate limiting. SDK-first diagnostics — many issues are solved by migrating to the official SDK.
 license: MIT
 ---
@@ -8,7 +7,7 @@ license: MIT
 
 Common issues, gotchas, and their solutions when working with the Gladia API.
 
-> **SDK-first diagnostics**: first verify the user is on the official SDK — many issues (polling, reconnection, retries) are solved automatically. See [sdk-integration](../sdk-integration/SKILL.md) for setup and policy.
+> **SDK-first diagnostics**: first verify the user is on the official SDK — many issues (polling, reconnection, retries) are solved automatically. See [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for setup and policy.
 
 ## When to Use
 
@@ -18,17 +17,17 @@ Common issues, gotchas, and their solutions when working with the Gladia API.
 - Billing confusion (multi-channel, concurrency limits, plan restrictions)
 - Verifying that an integration is correctly configured before going to production
 
-**When NOT to use:** For initial SDK setup and configuration, use [sdk-integration](../sdk-integration/SKILL.md). For feature-specific guidance (options, parameters, response structure), use [pre-recorded-transcription](../pre-recorded-transcription/SKILL.md) or [live-transcription](../live-transcription/SKILL.md).
+**When NOT to use:** For initial SDK setup and configuration, use [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md). For feature-specific guidance (options, parameters, response structure), use [gladia-pre-recorded-transcription](../gladia-pre-recorded-transcription/SKILL.md) or [gladia-live-transcription](../gladia-live-transcription/SKILL.md).
 
 ## References
 
 Consult these resources as needed:
 
-- ../sdk-integration/SKILL.md -- SDK setup, client config (retry, timeouts), and SDK vs raw API decision guide
-- ../sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)
-- ../pre-recorded-transcription/SKILL.md -- Pre-recorded config options and limits
-- ../live-transcription/SKILL.md -- Live session config and WebSocket event handling
-- ../audio-intelligence/SKILL.md -- Audio intelligence feature configs and availability matrix
+- ../gladia-sdk-integration/SKILL.md -- SDK setup, client config (retry, timeouts), and SDK vs raw API decision guide
+- ../gladia-sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)
+- ../gladia-pre-recorded-transcription/SKILL.md -- Pre-recorded config options and limits
+- ../gladia-live-transcription/SKILL.md -- Live session config and WebSocket event handling
+- ../gladia-audio-intelligence/SKILL.md -- Audio intelligence feature configs and availability matrix
 
 ## Authentication Errors
 
@@ -170,7 +169,7 @@ result = client.prerecorded().transcribe(
 
 - Verify `encoding`, `sample_rate`, `bit_depth`, `channels` match your actual audio stream
 - For pre-recorded: format is auto-detected from the file; this error is live-specific
-- For supported formats and size limits, see [pre-recorded-transcription](../pre-recorded-transcription/SKILL.md#limits-and-specifications) and [live-transcription](../live-transcription/SKILL.md#limits)
+- For supported formats and size limits, see [gladia-pre-recorded-transcription](../gladia-pre-recorded-transcription/SKILL.md#limits-and-specifications) and [gladia-live-transcription](../gladia-live-transcription/SKILL.md#limits)
 
 ## Transcription Quality Issues
 

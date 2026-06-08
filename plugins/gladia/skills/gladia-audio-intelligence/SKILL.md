@@ -1,5 +1,4 @@
----
-name: audio-intelligence
+name: gladia-audio-intelligence
 description: "Configure and use Gladia audio intelligence features: speaker diarization, translation, sentiment analysis, named entity recognition (NER), PII redaction, subtitles (SRT/VTT), summarization, chapterization, custom vocabulary, and audio-to-LLM. Use when the user asks about any audio intelligence feature, enabling features on pre-recorded or live transcription, understanding which features are available in each mode, or combining multiple features. Always prefer the official SDK; fall back to raw REST only when SDK cannot satisfy the requirement."
 license: MIT
 ---
@@ -8,7 +7,7 @@ license: MIT
 
 Gladia's audio intelligence features extract structured data and insights from transcripts. They work on top of the base transcription — most are enabled by adding options to the `transcribe()` call (pre-recorded) or the `startSession()` config (live).
 
-> **SDK-first**: always use the official SDK — see [sdk-integration](../sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
+> **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
 
 ## When to Use
 
@@ -17,7 +16,7 @@ Gladia's audio intelligence features extract structured data and insights from t
 - Understanding which features are available in live vs pre-recorded mode
 - Combining multiple features in a single transcription job
 
-**When NOT to use:** For basic transcription without audio intelligence features, go directly to [pre-recorded-transcription](../pre-recorded-transcription/SKILL.md) or [live-transcription](../live-transcription/SKILL.md). For gotchas and errors related to specific features, see [troubleshooting](../troubleshooting/SKILL.md).
+**When NOT to use:** For basic transcription without audio intelligence features, go directly to [gladia-pre-recorded-transcription](../gladia-pre-recorded-transcription/SKILL.md) or [gladia-live-transcription](../gladia-live-transcription/SKILL.md). For gotchas and errors related to specific features, see [gladia-troubleshooting](../gladia-troubleshooting/SKILL.md).
 
 ## References
 
@@ -25,10 +24,10 @@ Consult these resources as needed:
 
 - ./references/live-audio-intelligence.md -- Detailed config and WebSocket responses for all live-mode features
 - ./references/pre-recorded-audio-intelligence.md -- Detailed config and response structures for all pre-recorded audio intelligence features
-- ../pre-recorded-transcription/SKILL.md -- Pre-recorded transcription workflow and options
-- ../live-transcription/SKILL.md -- Live transcription session config and event handling
-- ../sdk-integration/SKILL.md -- SDK setup, client initialization, and SDK vs raw API decision guide
-- ../troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist
+- ../gladia-pre-recorded-transcription/SKILL.md -- Pre-recorded transcription workflow and options
+- ../gladia-live-transcription/SKILL.md -- Live transcription session config and event handling
+- ../gladia-sdk-integration/SKILL.md -- SDK setup, client initialization, and SDK vs raw API decision guide
+- ../gladia-troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist
 
 ## Feature Availability
 
@@ -51,7 +50,7 @@ Live features split into two groups: **real-time** (results stream during the se
 
 ## Quick Config Examples
 
-Code examples assume `GladiaClient` is already initialized — see [sdk-integration](../sdk-integration/SKILL.md) for setup.
+Code examples assume `GladiaClient` is already initialized — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for setup.
 
 ### Speaker Diarization (pre-recorded only)
 
@@ -152,7 +151,7 @@ For full per-feature config options and response structures, see:
 - **Expecting diarization, PII redaction, subtitles, or audio-to-LLM in live mode**: these four features are pre-recorded only.
 - **Enabling many features simultaneously without considering cost/latency**: each enabled feature adds processing time. Enable only what you need; combine `diarization + summarization + translation` only when all are required.
 
-For the full gotcha list, see [troubleshooting](../troubleshooting/SKILL.md).
+For the full gotcha list, see [gladia-troubleshooting](../gladia-troubleshooting/SKILL.md).
 
 ## Further Reading
 

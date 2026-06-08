@@ -6,14 +6,14 @@ Official AI agent skills from the Gladia team for integrating speech-to-text tra
 
 All skills default to **SDK-based integration** (`@gladiaio/sdk` for JS/TS, `gladiaio-sdk` for Python). Raw REST/WebSocket is documented as a fallback only.
 
-| Skill                        | Description                                                                                                                                  |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pre-recorded-transcription` | Batch transcription of audio files and URLs with audio intelligence features (SDK-first)                                                     |
-| `live-transcription`         | Real-time streaming transcription for voice agents, meetings, and call centers (SDK-first)                                                   |
-| `audio-intelligence`         | Configure audio intelligence features (diarization, translation, NER, PII, subtitles, summarization) for pre-recorded and live transcription |
-| `sdk-integration`            | Installing/configuring the official SDKs; SDK vs raw API decision guide                                                                      |
-| `troubleshooting`            | Common gotchas, error resolution, and verification checklists (SDK-first diagnostics)                                                        |
-| `documentation-auto`         | Auto-synced comprehensive reference from docs.gladia.io                                                                                      |
+| Skill                                 | Description                                                                                                                                  |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `gladia-pre-recorded-transcription`   | Batch transcription of audio files and URLs with audio intelligence features (SDK-first)                                                     |
+| `gladia-live-transcription`           | Real-time streaming transcription for voice agents, meetings, and call centers (SDK-first)                                                   |
+| `gladia-audio-intelligence`           | Configure audio intelligence features (diarization, translation, NER, PII, subtitles, summarization) for pre-recorded and live transcription |
+| `gladia-sdk-integration`              | Installing/configuring the official SDKs; SDK vs raw API decision guide                                                                      |
+| `gladia-troubleshooting`              | Common gotchas, error resolution, and verification checklists (SDK-first diagnostics)                                                        |
+| `gladia-documentation-auto`           | Auto-synced comprehensive reference from docs.gladia.io                                                                                      |
 
 ## How Skills Are Discovered
 

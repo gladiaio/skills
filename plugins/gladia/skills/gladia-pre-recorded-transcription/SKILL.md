@@ -1,5 +1,4 @@
----
-name: pre-recorded-transcription
+name: gladia-pre-recorded-transcription
 description: Transcribe pre-recorded audio files or URLs with Gladia. Use when the user needs batch/async transcription, speaker diarization, subtitles (SRT/VTT), PII redaction, translation, NER, summarization, chapterization, audio-to-LLM, or any audio intelligence on pre-recorded content. Always prefer the official SDK; fall back to raw REST only when SDK cannot satisfy the requirement.
 license: MIT
 ---
@@ -8,7 +7,7 @@ license: MIT
 
 Gladia's pre-recorded API transcribes audio and video files asynchronously.
 
-> **SDK-first**: always use the official SDK — see [sdk-integration](../sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
+> **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
 
 ## When to Use
 
@@ -16,7 +15,7 @@ Gladia's pre-recorded API transcribes audio and video files asynchronously.
 - Batch or asynchronous transcription workflows
 - Pre-recorded-only features: diarization, PII redaction, subtitles
 
-**When NOT to use:** If the user needs real-time / live transcription of a stream, microphone, or ongoing audio feed, use the [live-transcription skill](../live-transcription/SKILL.md) instead. Live transcription uses WebSocket sessions, not the pre-recorded API.
+**When NOT to use:** If the user needs real-time / live transcription of a stream, microphone, or ongoing audio feed, use the [gladia-live-transcription skill](../gladia-live-transcription/SKILL.md) instead. Live transcription uses WebSocket sessions, not the pre-recorded API.
 
 ## References
 
@@ -25,10 +24,10 @@ Consult these resources as needed:
 - ./references/transcription-options.md -- Full options (JS + Python)
 - ./references/managing-jobs.md -- `get`, `list`, `getFile`, `delete`
 - ./references/delivery-and-response.md -- Response shape and events
-- ../audio-intelligence/SKILL.md -- Feature availability and config
-- ../sdk-integration/SKILL.md -- Setup, config, SDK vs raw API
-- ../sdk-integration/references/sdk-versions.md -- Current SDK versions
-- ../troubleshooting/SKILL.md -- Errors and diagnostics
+- ../gladia-audio-intelligence/SKILL.md -- Feature availability and config
+- ../gladia-sdk-integration/SKILL.md -- Setup, config, SDK vs raw API
+- ../gladia-sdk-integration/references/sdk-versions.md -- Current SDK versions
+- ../gladia-troubleshooting/SKILL.md -- Errors and diagnostics
 
 ## API Endpoints (reference — prefer SDK methods instead)
 
@@ -65,7 +64,7 @@ result = client.prerecorded().transcribe(
 print(result.result.transcription.full_transcript)
 ```
 
-Audio input can be a local file path, HTTP(S) URL, social/video URL, or binary file object. For full input types, see [sdk-integration](../sdk-integration/SKILL.md#audio-input-types).
+Audio input can be a local file path, HTTP(S) URL, social/video URL, or binary file object. For full input types, see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md#audio-input-types).
 
 ### Fallback (raw REST — only when SDK is not feasible)
 
@@ -100,7 +99,7 @@ All options are passed as the second argument to `transcribe()`. Key options:
 | `audio_to_llm`    | Run custom LLM prompts on transcript        |
 | `callback_url`    | Async webhook delivery                      |
 
-For full option details, see [./references/transcription-options.md](./references/transcription-options.md). For audio intelligence config, see [audio-intelligence](../audio-intelligence/SKILL.md). For client-level retry/timeouts, see [sdk-integration](../sdk-integration/SKILL.md#configuration-options).
+For full option details, see [./references/transcription-options.md](./references/transcription-options.md). For audio intelligence config, see [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md). For client-level retry/timeouts, see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md#configuration-options).
 
 ## Response and Delivery
 
@@ -139,7 +138,7 @@ If using raw REST instead of the SDK:
 - **Expecting live-only features**: diarization, PII redaction, and subtitles are pre-recorded only — not available in live mode.
 - **Wrong audio file path**: the audio download endpoint is `/v2/pre-recorded/:id/file`, not `/v2/pre-recorded/:id/audio`.
 
-For the full list of gotchas and diagnostics, see the [troubleshooting skill](../troubleshooting/SKILL.md).
+For the full list of gotchas and diagnostics, see the [gladia-troubleshooting skill](../gladia-troubleshooting/SKILL.md).
 
 ## Further Reading
 

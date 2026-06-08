@@ -26,7 +26,7 @@ jobs:
       - name: Read current versions
         id: current
         run: |
-          FILE="plugins/gladia/skills/sdk-integration/references/sdk-versions.md"
+          FILE="plugins/gladia/skills/gladia-sdk-integration/references/sdk-versions.md"
           if [ -f "$FILE" ]; then
             CURRENT_JS=$(grep -oP '@gladiaio/sdk`\s+\|\s+\K[0-9]+\.[0-9]+\.[0-9]+' "$FILE" || echo "none")
             CURRENT_PY=$(grep -oP 'gladiaio-sdk`\s+\|\s+\K[0-9]+\.[0-9]+\.[0-9]+' "$FILE" || echo "none")
@@ -77,12 +77,12 @@ jobs:
             echo "# Python"
             echo "pip install gladiaio-sdk"
             printf '%s\n' '```'
-          } > plugins/gladia/skills/sdk-integration/references/sdk-versions.md
+          } > plugins/gladia/skills/gladia-sdk-integration/references/sdk-versions.md
 
       - name: Update JS reference
         if: steps.check.outputs.changed == 'true'
         run: |
-          FILE="plugins/gladia/skills/sdk-integration/references/javascript.md"
+          FILE="plugins/gladia/skills/gladia-sdk-integration/references/javascript.md"
           if [ -f "$FILE" ]; then
             sed -i "s/- \*\*Version\*\*: .*/- **Version**: ${{ steps.versions.outputs.js }}/" "$FILE"
           fi
@@ -90,7 +90,7 @@ jobs:
       - name: Update Python reference
         if: steps.check.outputs.changed == 'true'
         run: |
-          FILE="plugins/gladia/skills/sdk-integration/references/python.md"
+          FILE="plugins/gladia/skills/gladia-sdk-integration/references/python.md"
           if [ -f "$FILE" ]; then
             sed -i "s/- \*\*Version\*\*: .*/- **Version**: ${{ steps.versions.outputs.py }}/" "$FILE"
           fi

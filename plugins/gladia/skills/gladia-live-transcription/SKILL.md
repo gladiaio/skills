@@ -1,5 +1,4 @@
----
-name: live-transcription
+name: gladia-live-transcription
 description: Real-time speech-to-text streaming with Gladia via WebSocket. Use when the user needs live transcription, builds a voice agent, meeting recorder, call center integration, live subtitles, or any application streaming audio for low-latency partial and final transcripts. Always prefer the official SDK; fall back to raw WebSocket/REST only when SDK cannot satisfy the requirement.
 license: MIT
 ---
@@ -8,7 +7,7 @@ license: MIT
 
 Gladia's live API transcribes audio in real-time over WebSocket.
 
-> **SDK-first**: always use the official SDK — see [sdk-integration](../sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
+> **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
 
 ## When to Use
 
@@ -16,7 +15,7 @@ Gladia's live API transcribes audio in real-time over WebSocket.
 - Voice agents, meeting assistants, call center tools, or live subtitles
 - Live audio intelligence (translation, sentiment, NER)
 
-**When NOT to use:** If the user has a pre-existing audio/video file or URL to transcribe after the fact, use the [pre-recorded-transcription skill](../pre-recorded-transcription/SKILL.md) instead. Pre-recorded supports additional features like speaker diarization and PII redaction that are unavailable in live mode.
+**When NOT to use:** If the user has a pre-existing audio/video file or URL to transcribe after the fact, use the [gladia-pre-recorded-transcription skill](../gladia-pre-recorded-transcription/SKILL.md) instead. Pre-recorded supports additional features like speaker diarization and PII redaction that are unavailable in live mode.
 
 ## References
 
@@ -26,11 +25,11 @@ Consult these resources as needed:
 - ./references/session-config.md -- Full `startSession()` config (JS + Python)
 - ./references/managing-sessions.md -- `get`, `list`, `getFile`, `delete`
 - ./references/websocket-events.md -- WebSocket event reference
-- ../audio-intelligence/SKILL.md -- Feature availability
-- ../audio-intelligence/references/live-audio-intelligence.md -- Live feature details
-- ../sdk-integration/SKILL.md -- Setup, config, SDK vs raw API
-- ../sdk-integration/references/sdk-versions.md -- Current SDK versions
-- ../troubleshooting/SKILL.md -- Errors and diagnostics
+- ../gladia-audio-intelligence/SKILL.md -- Feature availability
+- ../gladia-audio-intelligence/references/live-audio-intelligence.md -- Live feature details
+- ../gladia-sdk-integration/SKILL.md -- Setup, config, SDK vs raw API
+- ../gladia-sdk-integration/references/sdk-versions.md -- Current SDK versions
+- ../gladia-troubleshooting/SKILL.md -- Errors and diagnostics
 
 ## API Endpoints (reference — prefer SDK methods)
 
@@ -49,7 +48,7 @@ SDK flow: `startSession()` -> `sendAudio()` -> receive transcript events -> `sto
 
 ## Quick Start
 
-For SDK installation and client initialization, see the [sdk-integration skill](../sdk-integration/SKILL.md).
+For SDK installation and client initialization, see the [gladia-sdk-integration skill](../gladia-sdk-integration/SKILL.md).
 
 ### JavaScript/TypeScript
 
@@ -113,7 +112,7 @@ Core fields to set on every session:
 - Message behavior: `messages_config.receive_partial_transcripts` and speech events
 - Optional processing: `pre_processing`, `realtime_processing`, `post_processing`
 
-See [./references/session-config.md](./references/session-config.md) for full examples and [sdk-integration](../sdk-integration/SKILL.md#configuration-options) for client retry/timeout settings.
+See [./references/session-config.md](./references/session-config.md) for full examples and [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md#configuration-options) for client retry/timeout settings.
 
 ## Key Tuning Parameters
 
@@ -188,7 +187,7 @@ For full examples and pagination filters, see [./references/managing-sessions.md
 - **Forgetting to stop recording**: leaving a session open without `stopRecording()` keeps it hanging.
 - **Wrong audio file path**: the audio download endpoint is `/v2/live/:id/file`, not `/v2/live/:id/audio`.
 
-For the full list of gotchas and diagnostics, see the [troubleshooting skill](../troubleshooting/SKILL.md).
+For the full list of gotchas and diagnostics, see the [gladia-troubleshooting skill](../gladia-troubleshooting/SKILL.md).
 
 ## Further Reading
 

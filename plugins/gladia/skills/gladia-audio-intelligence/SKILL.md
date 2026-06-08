@@ -1,3 +1,4 @@
+---
 name: gladia-audio-intelligence
 description: "Configure and use Gladia audio intelligence features: speaker diarization, translation, sentiment analysis, named entity recognition (NER), PII redaction, subtitles (SRT/VTT), summarization, chapterization, custom vocabulary, and audio-to-LLM. Use when the user asks about any audio intelligence feature, enabling features on pre-recorded or live transcription, understanding which features are available in each mode, or combining multiple features. Always prefer the official SDK; fall back to raw REST only when SDK cannot satisfy the requirement."
 license: MIT

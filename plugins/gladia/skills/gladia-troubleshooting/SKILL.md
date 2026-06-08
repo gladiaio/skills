@@ -1,3 +1,4 @@
+---
 name: gladia-troubleshooting
 description: Diagnose and fix common Gladia API issues. Use when the user encounters errors (401, 403, 429), unexpected behavior, poor transcription quality, billing confusion, audio format problems, WebSocket disconnections, polling failures, or asks about limits and rate limiting. SDK-first diagnostics — many issues are solved by migrating to the official SDK.
 license: MIT

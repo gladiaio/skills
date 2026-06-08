@@ -1,3 +1,4 @@
+---
 name: gladia-pre-recorded-transcription
 description: Transcribe pre-recorded audio files or URLs with Gladia. Use when the user needs batch/async transcription, speaker diarization, subtitles (SRT/VTT), PII redaction, translation, NER, summarization, chapterization, audio-to-LLM, or any audio intelligence on pre-recorded content. Always prefer the official SDK; fall back to raw REST only when SDK cannot satisfy the requirement.
 license: MIT

@@ -1,3 +1,4 @@
+---
 name: gladia-sdk-integration
 description: Install and configure the official Gladia SDKs (@gladiaio/sdk for JS/TS, gladiaio-sdk for Python). Use when the user asks about SDK setup, client initialization, API key configuration, choosing between JS and Python, browser usage, retry/timeout settings, error handling, or SDK vs raw API decisions. The SDK is the recommended default for all Gladia integrations.
 license: MIT

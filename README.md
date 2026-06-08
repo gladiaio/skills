@@ -16,7 +16,7 @@ Add the marketplace and install the plugin:
 ### Cursor
 
 1. Open Cursor Settings (Cmd+Shift+J / Ctrl+Shift+J)
-2. Navigate to **Rules & Commands** → **Project Rules** → **Add Rule** → **Remote Rule (GitHub)**
+2. Navigate to **Rules, Skills, Subagents** → **Rules** → **Add Rule** → **Import from GitHub**
 3. Enter: `https://github.com/gladiaio/skills.git`
 
 Skills are automatically discovered and used by the agent based on context. When you ask questions about Gladia transcription, the agent will select the relevant skill.

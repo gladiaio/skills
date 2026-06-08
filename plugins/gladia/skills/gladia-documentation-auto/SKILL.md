@@ -1,5 +1,4 @@
----
-name: documentation-auto
+name: gladia-documentation-auto
 description: Comprehensive Gladia speech-to-text reference auto-synced from docs.gladia.io. Use as a general-purpose fallback when other specialized skills don't match, or when the user needs a broad overview of Gladia capabilities, endpoints, decision guidance, or workflows. Always prefer the official SDK; fall back to raw REST/WebSocket only when SDK cannot satisfy the requirement.
 license: MIT
 metadata:
@@ -8,17 +7,17 @@ metadata:
   synced: "2026-06-04"
 ---
 
-> **SDK-first**: always use the official SDK — see [sdk-integration](../sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
+> **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
 
 ## References
 
 Consult these sibling skills as needed:
 
-- ../sdk-integration/SKILL.md -- SDK setup, client initialization, error handling, and SDK vs raw API decision guide
-- ../sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)
-- ../troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist
-- ../live-transcription/SKILL.md -- Live streaming transcription
-- ../pre-recorded-transcription/SKILL.md -- Pre-recorded file transcription
+- ../gladia-sdk-integration/SKILL.md -- SDK setup, client initialization, error handling, and SDK vs raw API decision guide
+- ../gladia-sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)
+- ../gladia-troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist
+- ../gladia-live-transcription/SKILL.md -- Live streaming transcription
+- ../gladia-pre-recorded-transcription/SKILL.md -- Pre-recorded file transcription
 
 ---
 name: Gladia

@@ -25,7 +25,7 @@ jobs:
       - name: Read current digest
         id: current-digest
         run: |
-          SKILL_FILE="plugins/gladia/skills/documentation-auto/SKILL.md"
+          SKILL_FILE="plugins/gladia/skills/gladia-documentation-auto/SKILL.md"
           if [ -f "$SKILL_FILE" ]; then
             CURRENT=$(grep -oP 'digest: sha256:\K[a-f0-9]+' "$SKILL_FILE" || echo "none")
           else
@@ -55,11 +55,11 @@ jobs:
           DIGEST="${{ steps.fetch-index.outputs.remote_digest }}"
           TODAY=$(date +%Y-%m-%d)
 
-          SKILL_FILE="plugins/gladia/skills/documentation-auto/SKILL.md"
+          SKILL_FILE="plugins/gladia/skills/gladia-documentation-auto/SKILL.md"
 
           {
             echo "---"
-            echo "name: documentation-auto"
+            echo "name: gladia-documentation-auto"
             echo "description: Comprehensive Gladia speech-to-text reference auto-synced from docs.gladia.io. Use as a general-purpose fallback when other specialized skills don't match, or when the user needs a broad overview of Gladia capabilities, endpoints, decision guidance, or workflows. Always prefer the official SDK; fall back to raw REST/WebSocket only when SDK cannot satisfy the requirement."
             echo "license: MIT"
             echo "metadata:"
@@ -70,17 +70,17 @@ jobs:
           } > "$SKILL_FILE"
           echo "" >> "$SKILL_FILE"
           {
-            echo '> **SDK-first**: always use the official SDK — see [sdk-integration](../sdk-integration/SKILL.md) for policy, setup, and fallback criteria.'
+            echo '> **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.'
             echo ''
             echo '## References'
             echo ''
             echo 'Consult these sibling skills as needed:'
             echo ''
-            echo '- ../sdk-integration/SKILL.md -- SDK setup, client initialization, error handling, and SDK vs raw API decision guide'
-            echo '- ../sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)'
-            echo '- ../troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist'
-            echo '- ../live-transcription/SKILL.md -- Live streaming transcription'
-            echo '- ../pre-recorded-transcription/SKILL.md -- Pre-recorded file transcription'
+            echo '- ../gladia-sdk-integration/SKILL.md -- SDK setup, client initialization, error handling, and SDK vs raw API decision guide'
+            echo '- ../gladia-sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)'
+            echo '- ../gladia-troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist'
+            echo '- ../gladia-live-transcription/SKILL.md -- Live streaming transcription'
+            echo '- ../gladia-pre-recorded-transcription/SKILL.md -- Pre-recorded file transcription'
             echo ''
           } >> "$SKILL_FILE"
 
@@ -98,12 +98,12 @@ jobs:
         uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: sync documentation-auto skill from docs.gladia.io"
+          commit-message: "chore: sync gladia-documentation-auto skill from docs.gladia.io"
           branch: auto/sync-documentation-skill
           delete-branch: true
-          title: "chore: sync documentation-auto skill from docs.gladia.io"
+          title: "chore: sync gladia-documentation-auto skill from docs.gladia.io"
           body: |
-            Automated update of the `documentation-auto` skill from [docs.gladia.io](https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md).
+            Automated update of the `gladia-documentation-auto` skill from [docs.gladia.io](https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md).
 
             **Previous digest**: `${{ steps.current-digest.outputs.current_digest }}`
             **New digest**: `${{ steps.fetch-index.outputs.remote_digest }}`

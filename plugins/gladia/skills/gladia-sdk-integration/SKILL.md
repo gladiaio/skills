@@ -1,5 +1,4 @@
----
-name: sdk-integration
+name: gladia-sdk-integration
 description: Install and configure the official Gladia SDKs (@gladiaio/sdk for JS/TS, gladiaio-sdk for Python). Use when the user asks about SDK setup, client initialization, API key configuration, choosing between JS and Python, browser usage, retry/timeout settings, error handling, or SDK vs raw API decisions. The SDK is the recommended default for all Gladia integrations.
 license: MIT
 ---
@@ -19,7 +18,7 @@ Official SDKs for integrating Gladia's speech-to-text API. Both SDKs share the s
 - Browser-based integration, proxy setup, or bundle format questions
 - Error handling patterns for Gladia API responses
 
-**When NOT to use:** If the user is asking about a specific transcription use case (pre-recorded files or live streaming), start with the relevant use-case skill ([pre-recorded-transcription](../pre-recorded-transcription/SKILL.md) or [live-transcription](../live-transcription/SKILL.md)) instead — those skills reference back here for setup details.
+**When NOT to use:** If the user is asking about a specific transcription use case (pre-recorded files or live streaming), start with the relevant use-case skill ([gladia-pre-recorded-transcription](../gladia-pre-recorded-transcription/SKILL.md) or [gladia-live-transcription](../gladia-live-transcription/SKILL.md)) instead — those skills reference back here for setup details.
 
 ## When to Use SDK vs Raw API
 
@@ -42,9 +41,9 @@ Consult these resources as needed:
 - ./references/client-config.md -- Full client configuration reference (all options, defaults, timeouts)
 - ./references/javascript.md -- JS/TS-specific patterns (browser, proxy, File/Blob, Node requirements)
 - ./references/python.md -- Python-specific patterns (sync/async, typed requests, httpx/websockets)
-- ../pre-recorded-transcription/SKILL.md -- Pre-recorded transcription options, response structure, and audio intelligence config
-- ../live-transcription/SKILL.md -- Live session config, audio streaming, and WebSocket event handling
-- ../troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist
+- ../gladia-pre-recorded-transcription/SKILL.md -- Pre-recorded transcription options, response structure, and audio intelligence config
+- ../gladia-live-transcription/SKILL.md -- Live session config, audio streaming, and WebSocket event handling
+- ../gladia-troubleshooting/SKILL.md -- Common errors, gotchas, and verification checklist
 
 ## Installation
 

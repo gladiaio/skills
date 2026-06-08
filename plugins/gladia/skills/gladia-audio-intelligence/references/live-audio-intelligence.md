@@ -224,7 +224,7 @@ session = client.live().start_session(
 )
 ```
 
-Keep `intensity` at 0.4-0.6. Values above 0.6 cause false positives. See [troubleshooting](../../troubleshooting/SKILL.md) for the intensity gotcha.
+Keep `intensity` at 0.4-0.6. Values above 0.6 cause false positives. See [gladia-troubleshooting](../../gladia-troubleshooting/SKILL.md) for the intensity gotcha.
 
 ### Custom Spelling
 
@@ -375,7 +375,7 @@ Enable only what you need — each feature adds processing overhead.
 
 ## WebSocket Message Reference
 
-For the full list of all WebSocket message types (including lifecycle events and acknowledgments), see [../../live-transcription/references/websocket-events.md](../../live-transcription/references/websocket-events.md).
+For the full list of all WebSocket message types (including lifecycle events and acknowledgments), see [../../gladia-live-transcription/references/websocket-events.md](../../gladia-live-transcription/references/websocket-events.md).
 
 Intelligence-related message types:
 

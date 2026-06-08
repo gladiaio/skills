@@ -31,13 +31,14 @@ npx skills add gladiaio/skills
 
 All skills default to **SDK-based integration** (`@gladiaio/sdk` for JS/TS, `gladiaio-sdk` for Python). Raw REST/WebSocket is only used as a fallback when the SDK cannot satisfy the requirement.
 
-| Skill                          | When it activates                                                                                      |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------ |
-| **pre-recorded-transcription** | Batch processing audio files, file uploads, URL transcription, diarization, PII redaction, subtitles   |
-| **live-transcription**         | Real-time streaming, WebSocket sessions, voice agents, meeting recorders, call centers                 |
-| **sdk-integration**            | Installing/configuring the JS/TS or Python SDK, client setup, error handling, SDK vs raw API decisions |
-| **troubleshooting**            | Errors, common gotchas, performance issues, format problems, billing questions                         |
-| **documentation-auto**         | General-purpose fallback — comprehensive reference auto-synced from docs.gladia.io                     |
+| Skill                                 | When it activates                                                                                      |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **gladia-pre-recorded-transcription** | Batch processing audio files, file uploads, URL transcription, diarization, PII redaction, subtitles   |
+| **gladia-live-transcription**         | Real-time streaming, WebSocket sessions, voice agents, meeting recorders, call centers                 |
+| **gladia-audio-intelligence**         | Feature-specific setup for diarization, translation, NER, PII redaction, subtitles, summarization      |
+| **gladia-sdk-integration**            | Installing/configuring the JS/TS or Python SDK, client setup, error handling, SDK vs raw API decisions |
+| **gladia-troubleshooting**            | Errors, common gotchas, performance issues, format problems, billing questions                         |
+| **gladia-documentation-auto**         | General-purpose fallback — comprehensive reference auto-synced from docs.gladia.io                     |
 
 ## How It Works
 
@@ -45,7 +46,7 @@ Skills are **not** slash commands — they are automatically discovered from the
 
 ## Keeping Skills Up to Date
 
-The `documentation-auto` skill is automatically synced from [docs.gladia.io](https://docs.gladia.io) via a daily GitHub Actions workflow. When the documentation changes, a PR is opened to update the skill content.
+The `gladia-documentation-auto` skill is automatically synced from [docs.gladia.io](https://docs.gladia.io) via a daily GitHub Actions workflow. When the documentation changes, a PR is opened to update the skill content.
 
 To update skills in your project:
 

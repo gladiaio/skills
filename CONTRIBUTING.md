@@ -56,7 +56,7 @@ license: MIT
 3. **Be concise** — agents load the full SKILL.md into context; every token counts
 4. **Be accurate** — keep code examples in sync with the current SDK versions
 5. **Link to references** — use `./references/topic.md` for deep dives
-6. **Don't duplicate** — SDK setup lives in `sdk-integration`; use a one-liner cross-reference instead of repeating it
+6. **Don't duplicate** — SDK setup lives in `gladia-sdk-integration`; use a one-liner cross-reference instead of repeating it
 
 ## Skill Quality Guidelines
 
@@ -68,15 +68,15 @@ For deeper guidance on writing effective skills, consult:
 Key quality targets:
 
 - **Descriptions**: state WHAT the skill does (capability) + WHEN to use it (trigger conditions). Do NOT summarize the skill's workflow in the description.
-- **SDK-first**: every code-generating skill must use a short SDK-first cross-reference: `> **SDK-first**: always use the official SDK — see [sdk-integration](../sdk-integration/SKILL.md) for policy, setup, and fallback criteria.`
-- **Cross-references**: every use-case skill must reference `sdk-integration` and `troubleshooting`
+- **SDK-first**: every code-generating skill must use a short SDK-first cross-reference: `> **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.`
+- **Cross-references**: every use-case skill must reference `gladia-sdk-integration` and `gladia-troubleshooting`
 - **Token efficiency**: keep SKILL.md lean; agents load the full file into context. Move large code blocks and detailed configs to `references/` files.
 - **Naming**: prefer gerund (verb-ing) form for new skill names (e.g., `transcribing-audio`)
 
 ## What NOT to Edit
 
-- `plugins/gladia/skills/documentation-auto/SKILL.md` — managed by CI automation
-- `plugins/gladia/skills/sdk-integration/references/sdk-versions.md` — managed by CI automation
+- `plugins/gladia/skills/gladia-documentation-auto/SKILL.md` — managed by CI automation
+- `plugins/gladia/skills/gladia-sdk-integration/references/sdk-versions.md` — managed by CI automation
 - `.claude-plugin/marketplace.json` — only modify if adding a new plugin (unlikely)
 
 ## Testing Your Changes

@@ -14,13 +14,13 @@ Internal documentation for adding, editing, and maintaining skills in this repos
 │       │   ├── SKILL.md               # Main skill file (required)
 │       │   └── references/            # Optional detailed docs
 │       │       └── *.md
-│       ├── sdk-integration/
+│       ├── gladia-sdk-integration/
 │       │   ├── SKILL.md               # SDK setup, decision guide
 │       │   └── references/
 │       │       ├── sdk-versions.md    # CI-managed (do not edit)
 │       │       ├── javascript.md
 │       │       └── python.md
-│       └── documentation-auto/        # CI-managed (do not edit)
+│       └── gladia-documentation-auto/        # CI-managed (do not edit)
 │           └── SKILL.md
 ├── .github/workflows/
 │   ├── sync-documentation.yml             # Auto-sync documentation skill from docs.gladia.io
@@ -52,7 +52,7 @@ license: MIT # Optional
 
 ### Naming Conventions
 
-Use **kebab-case** for all skill directory names. Prefer **gerund (verb-ing) form** for new skills — e.g., `transcribing-audio`, `integrating-sdk` — as this follows Anthropic's recommended naming pattern. Existing skills (`pre-recorded-transcription`, `live-transcription`, etc.) keep their current names to avoid breaking installed users.
+Use **kebab-case** for all skill directory names and use the `gladia-` prefix for all Gladia skills (for example, `gladia-transcribing-audio`, `gladia-integrating-sdk`). Prefer **gerund (verb-ing) form** for new skill names after the prefix.
 
 ### Writing Good Descriptions
 
@@ -74,9 +74,9 @@ The `description` field is critical — it's how agents decide which skill to ac
 - Use decision tables to help agents choose the right approach
 - Add a "When to Use" section with trigger conditions and "When NOT to use" with alternatives
 - Add a "Further Reading" section linking to docs.gladia.io pages
-- **Do not duplicate SDK setup/init content** — reference the `sdk-integration` skill instead
-- Code examples should assume the `GladiaClient` is already initialized; point to `sdk-integration` for setup
-- **Do not duplicate** the SDK-first policy blockquote in every skill — use a short one-liner referencing `sdk-integration`
+- **Do not duplicate SDK setup/init content** — reference the `gladia-sdk-integration` skill instead
+- Code examples should assume the `GladiaClient` is already initialized; point to `gladia-sdk-integration` for setup
+- **Do not duplicate** the SDK-first policy blockquote in every skill — use a short one-liner referencing `gladia-sdk-integration`
 
 ### Reference Files
 
@@ -96,12 +96,12 @@ Consult these resources as needed:
 Skills should cross-reference related skills so the agent discovers them at load time. Use relative paths in the References section:
 
 ```markdown
-- ../sdk-integration/SKILL.md -- SDK setup, client initialization, error handling
-- ../sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)
-- ../troubleshooting/SKILL.md -- Common errors and verification checklist
+- ../gladia-sdk-integration/SKILL.md -- SDK setup, client initialization, error handling
+- ../gladia-sdk-integration/references/sdk-versions.md -- Current SDK versions (auto-synced by CI)
+- ../gladia-troubleshooting/SKILL.md -- Common errors and verification checklist
 ```
 
-Every skill that generates code should reference `sdk-integration` for setup and `troubleshooting` for diagnostics. The `sdk-integration` skill should reference use-case skills back.
+Every skill that generates code should reference `gladia-sdk-integration` for setup and `gladia-troubleshooting` for diagnostics. The `gladia-sdk-integration` skill should reference use-case skills back.
 
 ## Modifying Existing Skills
 
@@ -111,9 +111,9 @@ Every skill that generates code should reference `sdk-integration` for setup and
 
 ## CI-Managed Files
 
-### documentation-auto Skill
+### gladia-documentation-auto Skill
 
-**Do not edit** `plugins/gladia/skills/documentation-auto/SKILL.md` manually. It is managed by the `sync-documentation.yml` GitHub Actions workflow that:
+**Do not edit** `plugins/gladia/skills/gladia-documentation-auto/SKILL.md` manually. It is managed by the `sync-documentation.yml` GitHub Actions workflow that:
 
 1. Runs daily at 06:00 UTC
 2. Fetches the digest from `docs.gladia.io/.well-known/agent-skills/index.json`
@@ -123,7 +123,7 @@ To force a sync: run the workflow manually from GitHub Actions.
 
 ### SDK Versions
 
-**Do not edit** `plugins/gladia/skills/sdk-integration/references/sdk-versions.md` manually. It is managed by the `sync-sdk-versions.yml` GitHub Actions workflow that:
+**Do not edit** `plugins/gladia/skills/gladia-sdk-integration/references/sdk-versions.md` manually. It is managed by the `sync-sdk-versions.yml` GitHub Actions workflow that:
 
 1. Runs daily at 06:30 UTC (after documentation sync)
 2. Checks npm (`@gladiaio/sdk`) and PyPI (`gladiaio-sdk`) for the latest versions
@@ -162,5 +162,5 @@ npx skills-ref validate ./plugins/gladia/skills/my-skill
 - No runtime dependencies at repo root
 - Pure markdown + optional scripts
 - **SDK-first**: all code examples must use the official SDK; raw REST/WebSocket only as a documented fallback, or if the user want a low level control
-- **No duplication**: SDK setup, client init, and error handling live in `sdk-integration` — other skills reference it
+- **No duplication**: SDK setup, client init, and error handling live in `gladia-sdk-integration` — other skills reference it
 - **No hardcoded SDK versions**: version info is CI-managed in `sdk-versions.md`

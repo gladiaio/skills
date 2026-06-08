@@ -16,7 +16,7 @@ All code examples MUST use the official Gladia SDK (`@gladiaio/sdk` for JS/TS, `
 - `SKILL.md` is required; move detailed content to `references/` subdirectory
 - Keep SKILL.md under ~300 lines / ~800 words
 - Reference files over 100 lines need a `## Contents` table of contents
-- Cross-reference `sdk-integration` and `troubleshooting` from every use-case skill
+- Cross-reference `gladia-sdk-integration` and `gladia-troubleshooting` from every use-case skill
 
 ## Code Generation
 
@@ -27,5 +27,5 @@ All code examples MUST use the official Gladia SDK (`@gladiaio/sdk` for JS/TS, `
 
 ## CI-Managed Files (do not edit)
 
-- `plugins/gladia/skills/documentation-auto/SKILL.md` — synced from docs.gladia.io
-- `plugins/gladia/skills/sdk-integration/references/sdk-versions.md` — synced from npm/PyPI
+- `plugins/gladia/skills/gladia-documentation-auto/SKILL.md` — synced from docs.gladia.io
+- `plugins/gladia/skills/gladia-sdk-integration/references/sdk-versions.md` — synced from npm/PyPI

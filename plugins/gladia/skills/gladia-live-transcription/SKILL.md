@@ -1,3 +1,4 @@
+---
 name: gladia-live-transcription
 description: Real-time speech-to-text streaming with Gladia via WebSocket. Use when the user needs live transcription, builds a voice agent, meeting recorder, call center integration, live subtitles, or any application streaming audio for low-latency partial and final transcripts. Always prefer the official SDK; fall back to raw WebSocket/REST only when SDK cannot satisfy the requirement.
 license: MIT

@@ -1,63 +1,76 @@
-# CLI vs SDK Feature Matrix
+# CLI vs SDK Routing Guide
 
-Use this table to decide whether to run `gladia transcribe` or escalate to SDK skills.
+Decide whether to run `gladia transcribe` or escalate to SDK skills.
 
-## Contents
+## Default rule
 
-- [CLI vs SDK Feature Matrix](#cli-vs-sdk-feature-matrix)
-  - [Contents](#contents)
-  - [Transcription modes](#transcription-modes)
-  - [Audio intelligence features](#audio-intelligence-features)
-  - [Output and post-processing](#output-and-post-processing)
-  - [When to escalate](#when-to-escalate)
+**Use CLI** when the feature has a CLI flag and the user wants a terminal workflow.
+
+**Escalate to SDK** for everything else — follow the skill links below.
 
 ## Transcription modes
 
-| Need                               | CLI                          | SDK / other skill                                                                  |
-| ---------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------- |
-| Pre-recorded file or URL           | `gladia transcribe <source>` | [gladia-pre-recorded-transcription](../gladia-pre-recorded-transcription/SKILL.md) |
-| Live / real-time stream            | Not supported                | [gladia-live-transcription](../gladia-live-transcription/SKILL.md)                 |
-| Batch jobs with webhooks           | Not supported                | SDK `transcribe()` + `callback_url`                                                |
-| Job management (list, delete, get) | Not supported                | SDK `get()`, `list()`, `delete()`                                                  |
+**CLI (`gladia transcribe`):**
 
-## Audio intelligence features
+- Pre-recorded local file or `http(s)` URL
 
-| Feature                   | CLI flag / behavior            | If not in CLI                                                                                                     |
-| ------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| Basic transcription       | `gladia transcribe`            | —                                                                                                                 |
-| Speaker diarization       | `--diarize`                    | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) for `diarization_config` (speaker count, etc.) |
-| Language hints            | `--language en,fr`             | SDK `language_config.languages`                                                                                   |
-| Code switching            | `--code-switching`             | SDK `language_config.code_switching`                                                                              |
-| Translation               | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `translation`                                |
-| Summarization (API addon) | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `summarization`                              |
-| Named entity recognition  | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `named_entity_recognition`                   |
-| PII redaction             | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `pii_redaction`                              |
-| Sentiment analysis        | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `sentiment_analysis`                         |
-| Audio-to-LLM              | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `audio_to_llm`                               |
-| Custom vocabulary         | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `custom_vocabulary`                          |
-| Chapterization            | No                             | [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `chapterization`                             |
-| Model selection           | `--model solaria-1\|solaria-3` | SDK `model` option on `transcribe()`                                                                              |
+**SDK only — escalate:**
 
-**Informal summarization:** the agent may summarize `-o text` output in conversation, but that is not the API summarization addon. For structured API summaries, use the SDK.
+- Live / real-time streaming → [gladia-live-transcription](../gladia-live-transcription/SKILL.md)
+- Pre-recorded via application code → [gladia-pre-recorded-transcription](../gladia-pre-recorded-transcription/SKILL.md)
+- Batch jobs with webhooks → SDK `transcribe()` + `callback_url`
+- Job management (list, get, delete) → SDK `get()`, `list()`, `delete()`
 
-## Output and post-processing
+## CLI-supported flags
 
-| Need                       | CLI                     | SDK                                         |
-| -------------------------- | ----------------------- | ------------------------------------------- |
-| Plain text transcript      | `-o text` (default)     | `result.transcription.full_transcript`      |
-| Utterances with timestamps | `-o json`               | `result.transcription.utterances`           |
-| Full API response JSON     | `-o json-full`          | Full `get()` / `transcribe()` response      |
-| SRT subtitles              | `-o srt`                | `subtitles` addon or format from utterances |
-| VTT subtitles              | `-o vtt`                | `subtitles` addon or format from utterances |
-| Diarized SRT/VTT           | `--diarize -o srt\|vtt` | `diarization: true` + subtitles config      |
+These map directly to `gladia transcribe` flags:
+
+- **Basic transcription** — default (no flag)
+- **Speaker diarization** — `--diarize`
+- **Language hints** — `--language en,fr` (comma-separated; constrains detection, does not enable code switching)
+- **Code switching** — `--code-switching`
+- **Model selection** — `--model solaria-1` or `--model solaria-3`
+
+For advanced diarization (exact speaker count, min/max speakers), escalate to [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md) — `diarization_config`.
+
+## SDK-only audio intelligence
+
+No CLI flags exist for these. Use [gladia-audio-intelligence](../gladia-audio-intelligence/SKILL.md):
+
+- Translation — `translation`
+- API summarization addon — `summarization` (not the same as the agent summarizing `-o text` output in conversation)
+- Named entity recognition — `named_entity_recognition`
+- PII redaction — `pii_redaction`
+- Sentiment analysis — `sentiment_analysis`
+- Audio-to-LLM — `audio_to_llm`
+- Custom vocabulary — `custom_vocabulary`
+- Chapterization — `chapterization`
+
+
+## Output formats
+
+**CLI (`-o` / `--output`):**
+
+- Plain text transcript — `text` (default)
+- Utterances with timestamps — `json`
+- Full API response — `json-full`
+- SRT subtitles — `srt` (add `--diarize` for speaker labels)
+- VTT subtitles — `vtt` (add `--diarize` for speaker labels)
+
+**SDK equivalents:**
+
+- Plain text — `result.transcription.full_transcript`
+- Utterances — `result.transcription.utterances`
+- Full response — `get()` / `transcribe()` response
+- Subtitles — `subtitles` addon or format from utterances
 
 ## When to escalate
 
 Escalate from CLI to SDK skills when:
 
-1. User requests a feature with **no CLI flag** (see table above)
+1. User requests a feature with **no CLI flag** (see SDK-only sections above)
 2. User is building an **application**, not a one-off terminal task
-3. User needs **advanced diarization config** (exact speaker count, min/max speakers beyond CLI defaults)
+3. User needs **advanced diarization config** beyond `--diarize`
 4. User needs **async delivery** (webhooks, job polling in code)
 5. `gladia` CLI is **not installed** and user does not want to install it
 

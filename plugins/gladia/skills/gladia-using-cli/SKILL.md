@@ -28,7 +28,7 @@ The [Gladia CLI](https://github.com/gladiaio/gladia-cli/) (`gladia`) transcribes
 
 Consult these resources as needed:
 
-- ./references/cli-vs-sdk.md -- Full feature matrix: CLI flag vs SDK skill routing
+- ./references/cli-vs-sdk.md -- CLI vs SDK routing: which features have CLI flags and which require SDK skills
 - ../gladia-pre-recorded-transcription/SKILL.md -- SDK pre-recorded workflow and options
 - ../gladia-audio-intelligence/SKILL.md -- Addons beyond CLI flags
 - ../gladia-troubleshooting/SKILL.md -- API key, upload, and polling errors
@@ -107,7 +107,7 @@ Global: `--gladia-key` — API key override
 
 ## CLI vs SDK (summary)
 
-For the full routing matrix, see [./references/cli-vs-sdk.md](./references/cli-vs-sdk.md).
+For full CLI vs SDK routing, see [./references/cli-vs-sdk.md](./references/cli-vs-sdk.md).
 
 | Feature                                        | CLI                              | If not in CLI                                                                          |
 | ---------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------- |

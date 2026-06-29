@@ -95,7 +95,6 @@ Global: `--gladia-key` — API key override
 | Timestamps per utterance      | `-o json` (utterance list with `time_begin`, `time_end`)  |
 | Full API payload              | `-o json-full`                                            |
 | Subtitle file                 | `-o srt` or `-o vtt` (add `--diarize` for speaker labels) |
-| Multilingual / code-switching | `--code-switching` (+ `--language en,fr` hints)           |
 | Model choice                  | `--model solaria-1`                                       |
 
 ### Language behavior

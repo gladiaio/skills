@@ -59,6 +59,6 @@ Escalate from CLI to SDK skills when:
 2. User is building an **application**, not a one-off terminal task
 3. User needs **advanced diarization config** (exact speaker count, min/max speakers beyond CLI defaults)
 4. User needs **async delivery** (webhooks, job polling in code)
-5. `gladia` is **not installed** and user does not want to install it
+5. `gladia` CLI is **not installed** and user does not want to install it
 
 For setup and SDK vs raw API decisions, start with [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md).

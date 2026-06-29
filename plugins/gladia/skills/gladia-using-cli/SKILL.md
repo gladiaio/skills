@@ -1,6 +1,6 @@
 ---
 name: gladia-using-cli
-description: Terminal transcription of audio files and URLs with the Gladia CLI (gladia). Use when the user has gladia-cli installed, wants shell-based transcription, or asks an agent to transcribe audio then answer questions about the content. For audio intelligence features not available as CLI flags, use the SDK skills instead.
+description: Terminal transcription of audio files and URLs with the Gladia CLI (gladia speech-to-text). Use when the user has gladia-cli installed, wants shell-based transcription, or asks an agent to transcribe audio then answer questions about the content. For audio intelligence features not available as CLI flags, use the SDK skills instead.
 license: MIT
 ---
 

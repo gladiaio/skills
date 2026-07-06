@@ -42,15 +42,20 @@ Consult these resources as needed:
 curl -fsSL https://github.com/gladiaio/gladia-cli/releases/latest/download/install.sh | sh
 ```
 
-**Auth** — get a key at [app.gladia.io/account](https://app.gladia.io/account):
+**Auth** — get a key at [app.gladia.io/account](https://app.gladia.io/account). Three options:
 
 ```bash
-export GLADIA_API_KEY=your_key
-# or persist locally:
-gladia auth set your_key
+# 1. Environment variable (preferred for CI and shells)
+export GLADIA_API_KEY=<API_KEY>
+
+# 2. Persist locally
+gladia auth set <API_KEY>
+
+# 3. Pass per command (global flag, works on any command)
+gladia transcribe meeting.wav --gladia-key <API_KEY>
 ```
 
-**Credential order:** `GLADIA_API_KEY` → `~/.gladia` → `--gladia-key`
+**Credential order:** `GLADIA_API_KEY` → `~/.gladia` → `--gladia-key` (first match wins)
 
 **List valid language codes:** `gladia languages`
 
@@ -88,14 +93,14 @@ Global: `--gladia-key` — API key override
 
 ## Output Format Selection
 
-| User need                     | CLI approach                                              |
-| ----------------------------- | --------------------------------------------------------- |
-| Plain transcript              | default or `-o text`                                      |
-| Who spoke when                | `--diarize -o text` or `-o json`                          |
-| Timestamps per utterance      | `-o json` (utterance list with `time_begin`, `time_end`)  |
-| Full API payload              | `-o json-full`                                            |
-| Subtitle file                 | `-o srt` or `-o vtt` (add `--diarize` for speaker labels) |
-| Model choice                  | `--model solaria-1`                                       |
+| User need                | CLI approach                                              |
+| ------------------------ | --------------------------------------------------------- |
+| Plain transcript         | default or `-o text`                                      |
+| Who spoke when           | `--diarize -o text` or `-o json`                          |
+| Timestamps per utterance | `-o json` (utterance list with `time_begin`, `time_end`)  |
+| Full API payload         | `-o json-full`                                            |
+| Subtitle file            | `-o srt` or `-o vtt` (add `--diarize` for speaker labels) |
+| Model choice             | `--model solaria-1`                                       |
 
 ### Language behavior
 
@@ -126,6 +131,7 @@ gladia transcribe https://example.com/podcast.mp3 -o json
 gladia transcribe call.wav --diarize -o srt
 gladia transcribe interview.mp3 --language en,fr --code-switching -v
 gladia transcribe podcast.mp3 --model solaria-1 -o json-full
+gladia transcribe meeting.wav --gladia-key <API_KEY>   # inline key, no env or ~/.gladia needed
 ```
 
 ## Common Mistakes

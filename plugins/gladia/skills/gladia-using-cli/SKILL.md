@@ -100,7 +100,7 @@ Global: `--gladia-key` — API key override
 | Timestamps per utterance | `-o json` (utterance list with `time_begin`, `time_end`)  |
 | Full API payload         | `-o json-full`                                            |
 | Subtitle file            | `-o srt` or `-o vtt` (add `--diarize` for speaker labels) |
-| Model choice             | `--model solaria-1`                                       |
+| Model choice             | `--model solaria-1` or `--model solaria-3`                |
 
 ### Language behavior
 

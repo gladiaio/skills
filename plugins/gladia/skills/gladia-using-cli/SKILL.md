@@ -104,6 +104,8 @@ Global: `--gladia-key` — API key override
 
 ### Language behavior
 
+You can list all the possible languages compatible with gladia with the command `gladia languages`.
+
 | Goal                | Command                                                    |
 | ------------------- | ---------------------------------------------------------- |
 | Auto-detect         | `gladia transcribe <source>`                               |

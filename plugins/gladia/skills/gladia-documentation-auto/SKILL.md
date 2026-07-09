@@ -4,8 +4,8 @@ description: Comprehensive Gladia speech-to-text reference auto-synced from docs
 license: MIT
 metadata:
   source: https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md
-  digest: sha256:cae5af7bbe95a1e0c1389bf07116cc038c7ff8f0ee23784588852047eb32be93
-  synced: "2026-06-09"
+  digest: sha256:c555f4874bbc15a36a96c434a0d3852c3a94b95868381ae35fe823e80876a71e
+  synced: "2026-07-09"
 ---
 
 > **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.
@@ -22,252 +22,241 @@ Consult these sibling skills as needed:
 
 ---
 name: Gladia
-description: Use when building speech transcription features, processing audio/video files, implementing real-time transcription, extracting insights from audio (speaker identification, translation, sentiment), or integrating voice capabilities into applications. Agents should reach for this skill when users request transcription, audio analysis, or voice-driven features.
+description: Use when building speech-to-text transcription features, processing audio/video files, implementing real-time transcription, extracting insights from audio (speaker identification, translation, sentiment), or integrating audio intelligence into applications. Agents should reach for this skill when users request transcription, audio analysis, or speech processing capabilities.
 metadata:
     mintlify-proj: gladia
     version: "1.0"
 ---
 
-# Gladia Speech-to-Text API
+# Gladia Skill
 
 ## Product summary
 
-Gladia is a speech-to-text API that transcribes audio and video files in two modes: **pre-recorded** (asynchronous, file-based) and **live** (real-time, WebSocket-based). Beyond transcription, it provides audio intelligence features like speaker diarization, translation, sentiment analysis, PII redaction, and custom vocabulary matching. Agents use Gladia to build transcription workflows, extract structured data from audio, and power voice-driven applications.
+Gladia is a speech-to-text (STT) API that transcribes audio and video files in both pre-recorded (asynchronous) and live (real-time) modes. It provides transcription plus audio intelligence features: speaker diarization, translation, sentiment analysis, PII redaction, summarization, and more. Agents use Gladia to build transcription workflows, extract data from audio, and integrate speech processing into applications.
 
-**Key files and commands:**
-- SDKs: JavaScript (`@gladiaio/sdk`) and Python (`gladiaio-sdk`)
-- Authentication: Pass `x-gladia-key` header with your API key
-- Pre-recorded endpoint: `POST /v2/pre-recorded` (create job), `GET /v2/pre-recorded/:id` (poll results)
-- Live endpoint: `POST /v2/live` (init session), WebSocket connection for streaming audio
-- Primary docs: https://docs.gladia.io
+**Key entry points:**
+- **Pre-recorded API**: `POST /v2/pre-recorded` (async transcription)
+- **Live API**: `POST /v2/live` (WebSocket-based real-time)
+- **Upload endpoint**: `POST /v2/upload` (for local files)
+- **Authentication**: `x-gladia-key` header with API key
+- **SDKs**: JavaScript/TypeScript (`@gladiaio/sdk`) and Python (`gladiaio-sdk`)
+- **Primary docs**: https://docs.gladia.io
 
 ## When to use
 
 Reach for this skill when:
-- A user wants to transcribe audio or video files (meetings, podcasts, calls, interviews)
-- Building real-time transcription (voice agents, live captions, meeting recorders)
-- Extracting speaker information (who said what, speaker count, speaker identification)
-- Translating transcripts to other languages or generating subtitles
-- Detecting sensitive information (PII redaction for GDPR/HIPAA compliance)
-- Improving transcription accuracy with domain-specific vocabulary
-- Analyzing sentiment or emotions in speech
-- Integrating with third-party platforms (Twilio, Vapi, LiveKit, Pipecat, etc.)
+- A user requests transcription of audio or video files (meetings, calls, podcasts, interviews)
+- Building real-time transcription for live events or streaming audio
+- Extracting speaker information, translations, or sentiment from audio
+- Implementing PII redaction for compliance (GDPR, HIPAA, CCPA)
+- Processing multi-language content with language detection or code switching
+- Generating subtitles, summaries, or meeting notes from audio
+- Integrating with platforms like Twilio, LiveKit, Vapi, or Pipecat
+- Optimizing transcription quality with custom vocabulary or domain-specific terms
 
 ## Quick reference
 
-### Authentication
-```bash
-# All requests require the x-gladia-key header
-curl --header 'x-gladia-key: YOUR_API_KEY' https://api.gladia.io/v2/...
+### Models
+
+| Model | Use case | Supports |
+|-------|----------|----------|
+| `solaria-3` | Pre-recorded (best quality, slower) | All features except live |
+| `solaria-1` | Live/real-time only | Streaming, partial transcripts |
+
+### Core parameters (pre-recorded)
+
+```json
+{
+  "audio_url": "https://...",  // or upload first
+  "model": "solaria-3",
+  "language_config": {
+    "languages": ["en"],  // ISO 639-1 codes
+    "code_switching": false
+  },
+  "diarization": true,
+  "diarization_config": {
+    "number_of_speakers": 2,  // or min/max
+    "min_speakers": 1,
+    "max_speakers": 5
+  }
+}
 ```
 
-### Pre-recorded workflow (file-based)
-1. **Upload** audio: `POST /v2/upload` → get `audio_url`
-2. **Create job**: `POST /v2/pre-recorded` with `audio_url` and options
-3. **Poll result**: `GET /v2/pre-recorded/:id` until `status: "done"`
+### Core parameters (live)
 
-Or use SDK's `transcribe()` method for end-to-end in one call.
+```json
+{
+  "model": "solaria-1",
+  "encoding": "wav/pcm",
+  "sample_rate": 16000,
+  "bit_depth": 16,
+  "channels": 1,
+  "language_config": {
+    "languages": ["en"],
+    "code_switching": false
+  }
+}
+```
 
-### Live workflow (real-time)
-1. **Init session**: `POST /v2/live` with audio config (encoding, sample_rate, bit_depth, channels)
-2. **Connect WebSocket**: Use returned `url` to open WebSocket connection
-3. **Send audio**: Stream audio chunks as binary or base64-encoded JSON
-4. **Read messages**: Receive transcript, translation, sentiment, etc. via WebSocket
-5. **Stop**: Send `stop_recording` message; WebSocket closes when post-processing done
+### Audio intelligence features
 
-### Audio formats supported
-| Type | Examples |
-|------|----------|
-| Audio | MP3, WAV, FLAC, AAC, OGG, Opus, M4A |
-| Video | MP4, MOV, AVI, WebM, Matroska |
-| Online | TikTok, Instagram, Facebook, Vimeo, LinkedIn, YouTube (via URL) |
+| Feature | Pre-recorded | Live | Use for |
+|---------|--------------|------|---------|
+| Speaker diarization | ✓ | ✓ | Identify who said what |
+| Translation | ✓ | ✓ | Multi-language output |
+| Subtitles | ✓ | ✗ | SRT/VTT files |
+| Custom vocabulary | ✓ | ✓ | Domain-specific terms |
+| Custom spelling | ✓ | ✓ | Normalize misspellings |
+| PII redaction | ✓ | ✗ | GDPR/HIPAA compliance |
+| Sentiment analysis | ✓ | ✓ | Emotion detection |
+| Named entity recognition | ✓ | ✓ | Extract people, places, dates |
+| Summarization | ✓ | ✗ | Auto-generate summaries |
+| Chapterization | ✓ | ✗ | Break into sections |
 
-### File limits
-- **Pre-recorded**: Max 135 minutes (2h15m) or 1000 MB; enterprise plans support 4h15m
-- **Live**: Max 3 hours per session
-- **Recommendation**: Split files >60 minutes for better quality
+### Supported formats
 
-### Common audio intelligence features
+**Audio**: aac, ac3, eac3, flac, m4a, mp2, mp3, ogg, opus, wav  
+**Video**: 3g2, 3gp, avi, flv, m4v, matroska, mov, mp4, wmv  
+**Online**: TikTok, Instagram, Facebook, Vimeo, LinkedIn, Dailymotion, Sharechat, Likee
 
-| Feature | Pre-recorded | Live | Use case |
-|---------|--------------|------|----------|
-| **Diarization** | ✓ | ✓ | Identify speakers, separate voices |
-| **Translation** | ✓ | ✓ | Translate to 100+ languages |
-| **Subtitles** | ✓ | - | Generate SRT/VTT files |
-| **Custom vocabulary** | ✓ | ✓ | Fix domain-specific terms |
-| **Custom spelling** | ✓ | ✓ | Normalize misspelled words |
-| **Sentiment analysis** | ✓ | ✓ | Detect sentiment & emotions |
-| **PII redaction** | ✓ | - | Mask sensitive data (GDPR/HIPAA) |
-| **Named entity recognition** | ✓ | ✓ | Extract people, places, dates |
-| **Summarization** | ✓ | - | Auto-generate summaries |
-| **Chapterization** | ✓ | - | Split into chapters/segments |
+### Limits
+
+| Limit | Free | Paid | Enterprise |
+|-------|------|------|------------|
+| Monthly usage | 10 hours | Unlimited | Unlimited |
+| Pre-recorded concurrency | 3 | 25 | On demand |
+| Live concurrency | 1 | 30 | On demand |
+| Max file duration | 135 min | 135 min | 4h 15m |
+| Max file size | 1000 MB | 1000 MB | 1000 MB |
+| Max live session | 3 hours | 3 hours | 3 hours |
 
 ## Decision guidance
 
 ### When to use pre-recorded vs. live
 
-| Scenario | Use pre-recorded | Use live |
-|----------|------------------|----------|
-| User uploads a file to transcribe | ✓ | - |
-| Real-time transcription (voice agent, meeting) | - | ✓ |
-| Post-processing (subtitles, translation, summarization) | ✓ | - |
-| Low-latency response needed | - | ✓ |
-| Batch processing multiple files | ✓ | - |
+| Scenario | Use |
+|----------|-----|
+| User uploads a file, wants transcript later | Pre-recorded (`/v2/pre-recorded`) |
+| Real-time transcription of streaming audio | Live (`/v2/live` WebSocket) |
+| Meeting recording to process after | Pre-recorded |
+| Live event, conference, or call transcription | Live |
+| Need subtitles or summarization | Pre-recorded (live doesn't support these) |
 
-### When to use custom vocabulary vs. custom spelling
+### When to use SDK vs. raw API
 
-| Situation | Use custom vocabulary | Use custom spelling |
-|-----------|----------------------|---------------------|
-| Model outputs garbled/phonetically wrong text | ✓ | - |
-| Model outputs recognizable but misspelled word | - | ✓ |
-| Domain-specific terms (brand names, jargon) | ✓ | - |
-| Normalizing variant spellings | - | ✓ |
+| Scenario | Use |
+|----------|-----|
+| Simple end-to-end transcription | SDK (handles upload, polling, retries) |
+| Fine-grained control over each step | Raw API (upload, create job, poll separately) |
+| Integrating into existing HTTP client | Raw API |
+| Building with Node.js or Python | SDK (better DX) |
 
-### When to use diarization vs. multi-channel audio
+### Custom vocabulary vs. custom spelling
 
-| Scenario | Use diarization | Use multi-channel |
-|----------|-----------------|-------------------|
-| Single audio stream, multiple speakers | ✓ | - |
-| Separate audio tracks per speaker | - | ✓ |
-| Unknown number of speakers | ✓ | - |
-| Known speaker count and channels | - | ✓ |
+| Scenario | Use |
+|----------|-----|
+| Model outputs garbled/phonetically wrong text | Custom vocabulary (phoneme-based matching) |
+| Model outputs recognizable but misspelled text | Custom spelling (literal text matching) |
+| Brand names or proper nouns | Custom vocabulary with pronunciations |
+| Normalizing variant spellings | Custom spelling |
+
+### Diarization vs. multi-channel audio
+
+| Scenario | Use |
+|----------|-----|
+| Single audio file, need to identify speakers | Diarization (`diarization: true`) |
+| Multiple separate audio tracks (e.g., Zoom participants) | Multi-channel (merge into one stream, set `channels: N`) |
+| Call recording with agent + customer | Diarization (simpler, set `number_of_speakers: 2`) |
+
+### Language detection vs. explicit language
+
+| Scenario | Use |
+|----------|-----|
+| Language is known in advance | Set `language_config.languages: ["en"]` (faster) |
+| Language is unknown | Omit `languages` (auto-detect) |
+| Multiple languages in one file | Set `languages: ["en", "fr"]` + `code_switching: true` |
 
 ## Workflow
 
-### Pre-recorded transcription (typical task)
+### Pre-recorded transcription (SDK)
 
-1. **Understand requirements**: Confirm audio format, language, desired features (diarization, translation, subtitles, PII redaction).
+1. **Initialize client**: `new GladiaClient({ apiKey: "YOUR_KEY" })`
+2. **Call transcribe()**: Pass audio URL or local path + options
+3. **Wait for result**: SDK polls until job completes
+4. **Extract data**: Access `transcription`, `translation`, `diarization`, etc. from result
 
-2. **Check file constraints**: Verify file is <1000 MB and <135 minutes (or split if needed).
+### Pre-recorded transcription (API)
 
-3. **Upload audio** (if local file):
-   ```javascript
-   const uploadResponse = await gladiaClient.preRecorded().uploadFile("path/to/audio.mp3");
-   const audioUrl = uploadResponse.audio_url;
-   ```
+1. **Upload audio** (if local): `POST /v2/upload` → get `audio_url`
+2. **Create job**: `POST /v2/pre-recorded` with `audio_url` + config
+3. **Poll for result**: `GET /v2/pre-recorded/:id` until `status: "done"`
+4. **Parse response**: Extract transcription, audio intelligence results
 
-4. **Create transcription job** with options:
-   ```javascript
-   const job = await gladiaClient.preRecorded().createUntyped({
-     audio_url: audioUrl,
-     language_config: { languages: ["en"], code_switching: false },
-     diarization: true,
-     diarization_config: { min_speakers: 1, max_speakers: 5 },
-     custom_vocabulary: true,
-     custom_vocabulary_config: { vocabulary: ["Gladia", "Solaria"] },
-     translation: true,
-     translation_config: { target_languages: ["fr"], model: "base" },
-     sentiment_analysis: true,
-     pii_redaction: true,
-     pii_redaction_config: { entity_types: ["GDPR"] }
-   });
-   ```
+### Live transcription (SDK)
 
-5. **Poll for results** (or use webhooks/callbacks):
-   ```javascript
-   let result = await gladiaClient.preRecorded().get(job.id);
-   while (result.status !== "done") {
-     await new Promise(r => setTimeout(r, 2000));
-     result = await gladiaClient.preRecorded().get(job.id);
-   }
-   ```
+1. **Initialize session**: `gladiaClient.liveV2().startSession(config)`
+2. **Register handlers**: Listen for `message`, `error`, `started`, `ended` events
+3. **Send audio chunks**: `liveSession.sendAudio(chunk)` as data arrives
+4. **Handle callbacks**: Process `transcript`, `translation`, `sentiment` messages in real-time
+5. **Stop recording**: `liveSession.stopRecording()` when done
+6. **Fetch final result** (optional): `GET /v2/live/:id` for complete output
 
-6. **Extract and validate results**: Check `transcription.utterances`, `translation`, `sentiment_analysis`, `diarization` fields.
+### Live transcription (API)
 
-7. **Verify output**: Confirm speaker attribution, translation accuracy, PII masking, and custom vocabulary replacements.
+1. **Initiate session**: `POST /v2/live` with encoding, sample rate, channels → get WebSocket URL
+2. **Connect WebSocket**: Open connection to returned URL
+3. **Send audio**: Send binary or base64-encoded audio chunks
+4. **Read messages**: Parse JSON messages (transcript, translation, etc.)
+5. **Stop recording**: Send `{ "type": "stop_recording" }` or close with code 1000
+6. **Fetch final result** (optional): `GET /v2/live/:id`
 
-### Live transcription (typical task)
+### Adding audio intelligence
 
-1. **Understand audio source**: Confirm encoding (wav/pcm, sample_rate, bit_depth, channels).
-
-2. **Initialize session**:
-   ```javascript
-   const liveSession = gladiaClient.liveV2().startSession({
-     model: "solaria-1",
-     encoding: "wav/pcm",
-     sample_rate: 16000,
-     bit_depth: 16,
-     channels: 1,
-     language_config: { languages: ["en"], code_switching: false },
-     messages_config: { receive_partial_transcripts: true }
-   });
-   ```
-
-3. **Connect WebSocket and set up handlers**:
-   ```javascript
-   liveSession.on("message", (message) => {
-     if (message.type === "transcript" && message.data.is_final) {
-       console.log(message.data.utterance.text);
-     }
-   });
-   ```
-
-4. **Stream audio chunks** as they arrive:
-   ```javascript
-   liveSession.sendAudio(audioChunk);
-   ```
-
-5. **Stop recording** when done:
-   ```javascript
-   liveSession.stopRecording();
-   ```
-
-6. **Retrieve final results** (optional):
-   ```javascript
-   const result = await fetch(`https://api.gladia.io/v2/live/${sessionId}`, {
-     headers: { "x-gladia-key": apiKey }
-   });
-   ```
+1. **Identify features needed**: diarization, translation, sentiment, PII redaction, etc.
+2. **Add to request body**: Enable feature flag + config object
+3. **For pre-recorded**: Add at top level (e.g., `"diarization": true`, `"translation": true`)
+4. **For live**: Nest under `realtime_processing` (e.g., `"realtime_processing": { "translation": true }`)
+5. **Parse results**: Features appear in response under their own keys
 
 ## Common gotchas
 
-- **Empty language list with code switching**: Do not set `languages: []` and `code_switching: true` together. The detector will evaluate every utterance against 100+ languages, causing misdetections. Always provide a constrained list (3-5 languages max).
-
-- **Forgetting audio metadata**: For live transcription, `encoding`, `sample_rate`, `bit_depth`, and `channels` must match your actual audio stream. Mismatches cause garbled output.
-
-- **Custom vocabulary intensity too high**: Start at `intensity: 0.4` and raise only if terms are missed. High intensity causes false positives (unrelated words get replaced). Add `pronunciations` variants before raising intensity.
-
-- **Polling without backoff**: Don't hammer the API with rapid polls. Use 2-3 second intervals or webhooks/callbacks instead.
-
-- **Exceeding file limits silently**: Pre-recorded files >135 minutes or >1000 MB will fail. Split large files into ~60-minute chunks before uploading.
-
-- **Not setting language when known**: If you know the language, set `languages: ["en"]` explicitly. Omitting it forces detection, adding latency and risk of misdetection.
-
-- **Diarization without hints**: If you know the speaker count, set `number_of_speakers` or `min_speakers`/`max_speakers`. Hints improve accuracy.
-
-- **PII redaction only for pre-recorded**: PII redaction is not available for live transcription. Plan accordingly for compliance workflows.
-
-- **Webhook/callback URL not reachable**: If using webhooks, ensure your callback URL is publicly accessible and returns 2xx status. Gladia will retry failed deliveries.
-
-- **Multi-channel audio billing**: Transcribing multi-channel audio is billed by total duration × number of channels. A 1-hour 3-channel stream costs 3 hours of transcription.
+- **solaria-3 with multiple languages**: Set exactly ONE language in `language_config.languages` (e.g., `["fr"]`). Do not pass multiple languages or enable code switching with solaria-3.
+- **Live sessions limited to 3 hours**: After 3 hours, session terminates. Start a new session before hitting the limit.
+- **Polling without backoff**: Don't hammer the API. Implement exponential backoff or use webhooks/callbacks instead.
+- **Custom vocabulary intensity too high**: Start at 0.4–0.6. Higher values cause false positives across unrelated words.
+- **Forgetting to set encoding/sample_rate for live**: These are required to parse audio chunks correctly. Mismatch causes garbled transcription.
+- **Multi-channel audio billing**: Transcribing N-channel audio is billed as N × duration. Merge channels only if necessary.
+- **File size near 1000 MB**: Split into ~60-minute chunks before uploading. Larger files fail silently.
+- **Language detection on code-switched audio**: Don't enable code switching with an empty `languages` list. Specify 3–5 expected languages.
+- **PII redaction only for pre-recorded**: Not available for live transcription. Plan compliance workflows accordingly.
+- **Webhooks vs. callbacks**: Webhooks are configured in the dashboard; callbacks are per-request. Use callbacks for one-off jobs.
 
 ## Verification checklist
 
-Before submitting transcription work:
+Before submitting work with Gladia:
 
-- [ ] Audio file is valid format (MP3, WAV, MP4, etc.) and <1000 MB
-- [ ] File duration is <135 minutes (or split if longer)
-- [ ] API key is valid and has `x-gladia-key` header set
-- [ ] Language is set explicitly if known; avoid empty `languages` with `code_switching: true`
-- [ ] Custom vocabulary entries are tested; intensity is 0.4-0.6 unless tuned
-- [ ] Diarization hints (min/max speakers) are provided if speaker count is known
-- [ ] Webhook/callback URL (if used) is publicly accessible and returns 2xx
-- [ ] Results include expected fields: `transcription.utterances`, `translation`, `sentiment_analysis`, etc.
-- [ ] Speaker attribution is correct (diarization `speaker` field matches expected speakers)
-- [ ] PII redaction is applied (if required) and sensitive data is masked
-- [ ] Translation accuracy is spot-checked for domain-specific terms
-- [ ] Subtitles (if generated) have correct timing and formatting
+- [ ] API key is set in `x-gladia-key` header (not in body or query params)
+- [ ] Audio URL is valid and accessible (or file uploaded successfully)
+- [ ] Model matches use case: `solaria-3` for pre-recorded, `solaria-1` for live
+- [ ] Language config is set correctly (explicit language or auto-detect, not both)
+- [ ] If using solaria-3 with multiple languages, set exactly one language
+- [ ] Diarization config (min/max speakers) is reasonable for the content
+- [ ] Custom vocabulary entries have pronunciations for phonetically wrong terms
+- [ ] PII redaction entity types match compliance requirements (GDPR, HIPAA, etc.)
+- [ ] Live session encoding/sample_rate/bit_depth match actual audio format
+- [ ] File size is under 1000 MB; duration under 135 min (or 4h 15m for enterprise)
+- [ ] Polling includes backoff or uses webhooks/callbacks
+- [ ] Response parsing handles both success and error states
+- [ ] Transcription quality is acceptable (test with sample audio first)
 
 ## Resources
 
-- **Comprehensive page listing**: https://docs.gladia.io/llms.txt
-- **Getting started**: https://docs.gladia.io/chapters/introduction/getting-started
-- **Pre-recorded quickstart**: https://docs.gladia.io/chapters/pre-recorded-stt/quickstart
-- **Live transcription quickstart**: https://docs.gladia.io/chapters/live-stt/quickstart
-- **Audio intelligence features**: https://docs.gladia.io/chapters/audio-intelligence/
-- **Recommended parameters by use case**: https://docs.gladia.io/chapters/pre-recorded-stt/recommended-parameters
-- **API reference**: https://docs.gladia.io/api-reference/
-- **SDK documentation**: https://docs.gladia.io/chapters/integrations/sdk
+**Comprehensive navigation**: https://docs.gladia.io/llms.txt
+
+**Critical pages**:
+- [Pre-recorded quickstart](https://docs.gladia.io/chapters/pre-recorded-stt/quickstart) — end-to-end transcription workflow
+- [Live quickstart](https://docs.gladia.io/chapters/live-stt/quickstart) — real-time transcription setup
+- [Audio intelligence features](https://docs.gladia.io/chapters/audio-intelligence/) — diarization, translation, sentiment, PII redaction, and more
 
 ---
 

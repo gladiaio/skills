@@ -13,7 +13,7 @@ The [Gladia CLI](https://github.com/gladiaio/gladia-cli/) (`gladia`) transcribes
 ## When to Use
 
 - User mentions gladia-cli, `gladia transcribe`, or wants quick terminal transcription
-- Agent should transcribe a local file or URL, then answer follow-up questions about the content
+- Agent should transcribe a local file, a `http(s)` URL, or a YouTube URL, then answer follow-up questions about the content
 - One-off transcription without writing application code
 
 **Prerequisites:** verify `gladia --version` succeeds and an API key is configured (`GLADIA_API_KEY`, `~/.gladia`, or `--gladia-key`).
@@ -61,11 +61,11 @@ gladia transcribe meeting.wav --gladia-key <API_KEY>
 
 ## Commands
 
-| Command                      | Description                              |
-| ---------------------------- | ---------------------------------------- |
-| `gladia transcribe <source>` | Transcribe a local file or `http(s)` URL |
-| `gladia auth set <key>`      | Save API key to `~/.gladia`              |
-| `gladia languages`           | List supported ISO 639-1 codes           |
+| Command                      | Description                                                |
+| ---------------------------- | ---------------------------------------------------------- |
+| `gladia transcribe <source>` | Transcribe a local file, a `http(s)` URL, or a YouTube URL |
+| `gladia auth set <key>`      | Save API key to `~/.gladia`                                |
+| `gladia languages`           | List supported ISO 639-1 codes                             |
 
 ## Transcribe Flags
 
@@ -130,6 +130,7 @@ For full CLI vs SDK routing, see [./references/cli-vs-sdk.md](./references/cli-v
 ```bash
 gladia transcribe meeting.wav
 gladia transcribe https://example.com/podcast.mp3 -o json
+gladia transcribe https://www.youtube.com/watch?v=jNQXAC9IVRw
 gladia transcribe call.wav --diarize -o srt
 gladia transcribe interview.mp3 --language en,fr --code-switching -v
 gladia transcribe podcast.mp3 --model solaria-1 -o json-full

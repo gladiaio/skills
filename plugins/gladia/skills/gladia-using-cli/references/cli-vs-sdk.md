@@ -44,7 +44,6 @@ No CLI flags exist for these. Use [gladia-audio-intelligence](../gladia-audio-in
 - Sentiment analysis — `sentiment_analysis`
 - Audio-to-LLM — `audio_to_llm`
 - Custom vocabulary — `custom_vocabulary`
-- Chapterization — `chapterization`
 
 
 ## Output formats

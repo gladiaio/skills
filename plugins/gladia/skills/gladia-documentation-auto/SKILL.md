@@ -4,8 +4,8 @@ description: Comprehensive Gladia speech-to-text reference auto-synced from docs
 license: MIT
 metadata:
   source: https://docs.gladia.io/.well-known/agent-skills/gladia/skill.md
-  digest: sha256:fce0f1bdb678fca35d434a7f9f589187478d079847f0b9fcd6b846c032d1365c
-  synced: "2026-10-02"
+  digest: sha256:bfe05a921279cf643d38bf1f152e19bba5d394ca40b0fa29fee85b6181d869ff
+  synced: "2026-10-03"
 ---
 
 > **SDK-first**: always use the official SDK — see [gladia-sdk-integration](../gladia-sdk-integration/SKILL.md) for policy, setup, and fallback criteria.

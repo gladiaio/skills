@@ -20,7 +20,7 @@ Patterns and details specific to the `gladiaio-sdk` package.
 ## Package Info
 
 - **PyPI**: [gladiaio-sdk](https://pypi.org/project/gladiaio-sdk/)
-- **Version**: 2.1.0
+- **Version**: 2.2.1
 - **Runtime**: Python 3.10+
 - **Dependencies**: httpx, websockets, pyee
 

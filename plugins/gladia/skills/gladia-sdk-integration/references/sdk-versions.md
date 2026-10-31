@@ -4,10 +4,10 @@
 
 | SDK | Package | Latest Version | Registry |
 | --- | --- | --- | --- |
-| JavaScript/TypeScript | `@gladiaio/sdk` | 2.1.0 | [npm](https://www.npmjs.com/package/@gladiaio/sdk) |
-| Python | `gladiaio-sdk` | 2.1.0 | [PyPI](https://pypi.org/project/gladiaio-sdk/) |
+| JavaScript/TypeScript | `@gladiaio/sdk` | 2.2.1 | [npm](https://www.npmjs.com/package/@gladiaio/sdk) |
+| Python | `gladiaio-sdk` | 2.2.1 | [PyPI](https://pypi.org/project/gladiaio-sdk/) |
 
-Last synced: 2026-10-02
+Last synced: 2026-10-31
 
 Always install without pinning a version to get the latest release:
 

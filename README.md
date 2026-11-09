@@ -1,6 +1,6 @@
 # Gladia Skills
 
-Official AI agent skills from the Gladia team for integrating speech-to-text transcription into your applications.
+Official AI agent skills from the Gladia team for integrating speech-to-text transcription into your applications. See the [Gladia documentation](https://docs.gladia.io) and [pricing](https://www.gladia.io/pricing).
 
 ## Installation
 
@@ -57,6 +57,7 @@ npx skills update
 ## Resources
 
 - [Gladia Documentation](https://docs.gladia.io)
+- [Pricing](https://www.gladia.io/pricing)
 - [Support Center](https://support.gladia.io)
 - [JavaScript SDK](https://www.npmjs.com/package/@gladiaio/sdk)
 - [Python SDK](https://pypi.org/project/gladiaio-sdk/)
